@@ -24,4 +24,4 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   storageClassName: manual
   hostPath:
-    path: /cluster-pg/data
+    path: /cluster-pg/datacd 
