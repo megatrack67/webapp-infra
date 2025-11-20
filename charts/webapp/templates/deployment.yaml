@@ -3,8 +3,8 @@ kind: Deployment
 metadata:
   name: webapp
   namespace: app
-labels:
-  app: webapp
+  labels:
+    app: webapp
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
@@ -28,10 +28,10 @@ spec:
             - name: PGUSER
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.postgres.userSecret }}
-                  key: {{ .Values.postgres.userKey }}
+                  name: "{{ .Values.postgres.userSecret }}"
+                  key: "{{ .Values.postgres.userKey }}"
             - name: PGPASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.postgres.userSecret }}
-                  key: {{ .Values.postgres.passKey }}
+                  name: "{{ .Values.postgres.userSecret }}"
+                  key: "{{ .Values.postgres.passKey }}"

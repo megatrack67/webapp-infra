@@ -7,7 +7,7 @@ spec:
   instances: 2
   storage:
     size: 5Gi
-    storageClassName: standard
+    storageClassName: manual
     mountPath: /cluster-pg/data
   postgresql:
     database: appdb
@@ -21,3 +21,7 @@ spec:
   network:
     service:
       type: ClusterIP
+  bootstrap:
+    initdb:
+      database: appdb
+      owner: appuser

@@ -12,7 +12,7 @@ const pool = new Pool({
   port: process.env.PGPORT || 5432
 });
 
-// Create table if not exists (safe to run on each start)
+// Ensure table exists
 (async () => {
   const client = await pool.connect();
   try {
@@ -29,34 +29,33 @@ const pool = new Pool({
   }
 })();
 
+// Create
 app.post('/clients', async (req, res) => {
   const { name, lastname, age } = req.body;
-  const result = await pool.query(
-    'INSERT INTO clients (name, lastname, age) VALUES ($1,$2,$3) RETURNING *',
-    [name, lastname, age]
-  );
-  res.json(result.rows[0]);
+  const r = await pool.query('INSERT INTO clients (name, lastname, age) VALUES ($1,$2,$3) RETURNING *', [name, lastname, age]);
+  res.status(201).json(r.rows[0]);
 });
 
+// Read all
 app.get('/clients', async (req, res) => {
-  const result = await pool.query('SELECT * FROM clients ORDER BY id');
-  res.json(result.rows);
+  const r = await pool.query('SELECT * FROM clients ORDER BY id');
+  res.json(r.rows);
 });
 
+// Read one
 app.get('/clients/:id', async (req, res) => {
-  const result = await pool.query('SELECT * FROM clients WHERE id=$1', [req.params.id]);
-  res.json(result.rows[0] || {});
+  const r = await pool.query('SELECT * FROM clients WHERE id=$1', [req.params.id]);
+  res.json(r.rows[0] || {});
 });
 
+// Update
 app.put('/clients/:id', async (req, res) => {
   const { name, lastname, age } = req.body;
-  const result = await pool.query(
-    'UPDATE clients SET name=$1, lastname=$2, age=$3 WHERE id=$4 RETURNING *',
-    [name, lastname, age, req.params.id]
-  );
-  res.json(result.rows[0] || {});
+  const r = await pool.query('UPDATE clients SET name=$1, lastname=$2, age=$3 WHERE id=$4 RETURNING *', [name, lastname, age, req.params.id]);
+  res.json(r.rows[0] || {});
 });
 
+// Delete
 app.delete('/clients/:id', async (req, res) => {
   await pool.query('DELETE FROM clients WHERE id=$1', [req.params.id]);
   res.status(204).send();
