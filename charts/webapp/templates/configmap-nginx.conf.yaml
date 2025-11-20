@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-custom-conf
+  namespace: app
+data:
+  nginx.conf: |
+    # placeholder for custom nginx config if needed

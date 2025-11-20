@@ -1,0 +1,15 @@
+replicaCount: 1
+image:
+  repository: yourdockerhub/webapp
+  tag: latest
+service:
+  port: 80
+ingress:
+  enabled: true
+  host: webapp.local
+postgres:
+  host: cluster-pg-rw.database.svc.cluster.local
+  database: appdb
+  userSecret: pg-credentials
+  userKey: username
+  passKey: password

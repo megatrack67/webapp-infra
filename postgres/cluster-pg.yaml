@@ -1,0 +1,23 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: cluster-pg
+  namespace: database
+spec:
+  instances: 2
+  storage:
+    size: 5Gi
+    storageClassName: standard
+    mountPath: /cluster-pg/data
+  postgresql:
+    database: appdb
+    username: appuser
+    password:
+      secretKeyRef:
+        name: pg-credentials
+        key: password
+    parameters:
+      max_connections: "100"
+  network:
+    service:
+      type: ClusterIP
